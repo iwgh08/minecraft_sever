@@ -1,0 +1,26 @@
+# This repo is public, so everything under server/ is ignored by default and only
+# safe settings files are allowed back in. Keeps out the world, friends' names/UUIDs,
+# logs (they contain IPs), secrets and jars, including any new files that show up later.
+
+/backups/
+/server-address.txt
+
+/server/*
+!/server/bukkit.yml
+!/server/commands.yml
+!/server/spigot.yml
+!/server/server.properties.example
+
+!/server/config/
+/server/config/*
+!/server/config/paper-global.yml
+!/server/config/paper-world-defaults.yml
+
+!/server/plugins/
+/server/plugins/*
+!/server/plugins/Chunky/
+/server/plugins/Chunky/*
+!/server/plugins/Chunky/config.yml
+!/server/plugins/spark/
+/server/plugins/spark/*
+!/server/plugins/spark/config.json
