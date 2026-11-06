@@ -24,3 +24,6 @@
 !/server/plugins/spark/
 /server/plugins/spark/*
 !/server/plugins/spark/config.json
+!/server/plugins/NMinimap/
+/server/plugins/NMinimap/*
+!/server/plugins/NMinimap/config.yml

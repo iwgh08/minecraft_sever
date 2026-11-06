@@ -3,14 +3,45 @@
 - 버전: Minecraft Java **26.3** (Paper)
 - Java: Eclipse Temurin 25 (`C:\Program Files\Eclipse Adoptium\jre-25*`)
 - 접속 주소: 서버 컴퓨터의 `server-address.txt` 에 있어요 (playit.gg 무료 터널. 공개 저장소라 여기엔 안 적어요)
-- 플러그인: Chunky (월드 미리 만들기)
+- 플러그인: Chunky (월드 미리 만들기), NMinimap (미니맵), PacketEvents·AnvilORM (NMinimap에 필요한 플러그인)
+- 데이터팩: NoMod Shaders (셰이더 효과를 각자 고르는 명령. `server\world\datapacks\` 에 있어서 백업에 같이 들어가요)
 
 ## 친구 접속 방법
 1. 마인크래프트 Java 에디션 **26.3** 실행
 2. 멀티플레이 → 서버 추가 → 주소에 위 접속 주소 입력
-3. 접속이 안 되면 → 서버 콘솔에서 그 친구 닉네임으로 `whitelist add` 했는지 확인
+3. 처음 접속할 때 리소스팩을 받을지 묻는 창이 뜨면 **예** (미니맵과 셰이더 효과용. 아래 "미니맵과 셰이더 효과" 참고)
+4. 접속이 안 되면 → 서버 콘솔에서 그 친구 닉네임으로 `whitelist add` 했는지 확인
 
 본인은 같은 컴퓨터에서 `localhost` 로 접속하면 돼요.
+
+## 미니맵과 셰이더 효과
+모드를 안 깐 기본 마인크래프트에서 보여요. 접속할 때 서버가 리소스팩을 보내주고, 그 팩이 화면에 그려요.
+- 리소스팩 창에서 **예**를 눌러야 보여요. "아니오"를 눌렀다면: 멀티플레이 목록에서 서버 선택 → 편집 →
+  "서버 리소스 팩"을 "사용"으로 바꾸고 다시 접속
+  (팩 없이 들어오면 미니맵이 이상하게 보일 수 있어요. 팩을 안 쓸 거면 `/minimap disable`)
+- **미니맵**: 오른쪽 위에 떠요. 각자 채팅창에 입력해서 바꿔요
+
+  | 명령어 | 설명 |
+  |---|---|
+  | `/minimap disable` / `/minimap enable` | 미니맵 끄기 / 켜기 |
+  | `/minimap scale 1` (2, 4, 8) | 숫자가 클수록 더 넓은 범위가 보여요 |
+  | `/minimap style round` / `/minimap style square` | 둥근 지도 / 네모 지도 |
+  | `/minimap side left` / `/minimap side right` | 왼쪽 위 / 오른쪽 위 |
+  | `/minimap radar disable` / `/minimap radar enable` | 지도에 몹 표시 끄기 / 켜기 |
+
+- **셰이더 효과**: 흔들리는 나뭇잎·풀, 노을빛, 횃불빛, 빛 번짐, 그림자 느낌, 색감 보정. 각자 채팅창에 입력해서 골라요
+
+  | 명령어 | 설명 |
+  |---|---|
+  | `/trigger shaders_lite` | 가볍게 (색감과 빛 번짐만, 가장 빠름) |
+  | `/trigger shaders_default` | 기본 (처음 상태) |
+  | `/trigger shaders_cinematic` | 영화처럼 (먼 곳 흐림까지) |
+  | `/trigger shaders_off` | 효과 끄기 |
+
+  해 그림자, 반사, 물결은 없어요. Iris 같은 셰이더 모드보다 가벼운 효과예요.
+- 이럴 때는 서버 미니맵이 안 보여요:
+  - Iris나 OptiFine 셰이더를 켰거나, ImmediatelyFast 모드를 쓰는 경우 → 그 친구는 Xaero's Minimap 모드를 깔면 돼요
+  - Fabric 같은 모드 로더로 실행한 경우 자동으로 안 켜져요 → 셰이더 모드가 없으면 `/minimap enable`
 
 ## 서버 켜기 / 끄기
 - **켜기**: `start.bat` 더블클릭
@@ -34,6 +65,8 @@
 - 서버가 느린 건지 확인: 서버 콘솔에 `spark tps` → MSPT 최대값이 50을 자주 넘으면 서버 문제,
   아니면 네트워크 문제예요
 - 마인크래프트 옵션 → 비디오 설정 → **렌더 거리** 낮추기 (그 사람이 받는 땅 데이터만 줄어요)
+- 미니맵이 생긴 뒤로 느려졌다면: `server\plugins\NMinimap\config.yml` 의 `player-render-interval: 1` 을 `2` 로
+  바꾸고 서버 재시작 (지도를 1초에 20번 → 10번 새로 그려요)
 - Windows 전력 제한 해제 (이미 적용됨): `java.exe`, `playitd.exe` (덮개를 닫아도 CPU를 제대로 씀)
   Java를 업데이트하면 경로가 바뀌니 관리자 PowerShell에서 다시:
   `powercfg /powerthrottling disable /path "<새 java.exe 경로>"`
@@ -80,6 +113,14 @@
 - `server\server.properties`: 화이트리스트 강제, 최대 5명, 난이도 normal, view-distance 10, simulation-distance 8,
   `enforce-secure-profile=false` (보안 채팅 강제 끔)
   (비밀값이 있어서 GitHub에는 그 값을 지운 `server\server.properties.example` 만 올려요)
+  - `resource-pack=` 로 시작하는 줄들: 친구들에게 보내는 리소스팩의 주소, SHA-1(파일 검사값), 안내 문구
+  - `require-resource-pack=false`: 팩을 거절해도 접속은 돼요. `true` 로 바꾸면 거절한 사람은 못 들어와요
+- `server\plugins\NMinimap\config.yml` (미니맵 설정). 기본값에서 바꾼 것:
+  - `side: right`: 오른쪽 위에 표시
+  - `map-id: 1000000`: 미니맵이 빌려 쓰는 지도 번호. 월드에 이미 있는 지도(0~12번)와 겹치지 않게 바꿨어요.
+    **0으로 되돌리면 친구들이 만든 0번 지도가 망가져요**
+  - `mods-compatibility.mode: 2`: Xaero's 같은 미니맵 모드를 깐 친구는 그 모드가 그대로 보여요
+  - `static-markers: {}`: 좌표 0,0에 깃발을 표시하는 예시 설정을 지웠어요
 - `server\config\paper-global.yml` (Paper가 기본으로 막아둔 바닐라 기술들을 허용함.
   원래대로 막으려면 `false` 로 바꾸고 서버 재시작):
   - `allow-piston-duplication: true` (TNT·레일·카펫 복사기)
@@ -87,7 +128,29 @@
   - `allow-permanent-block-break-exploits: true` (기반암·엔드 포털 틀 부수기)
 - `start.bat`: 메모리 4~6GB 할당 (`-Xms4G -Xmx6G`)
 
+## 리소스팩 다시 만들기
+이럴 때 팩을 다시 만들어야 해요:
+- NMinimap의 지도 크기나 위치(`map-pixel-size`, `map-display`)를 바꿨을 때
+- NMinimap이나 NoMod Shaders를 새 버전으로 바꿨을 때
+
+Claude Code에 "리소스팩 다시 만들어줘"라고 하면 돼요. 직접 하려면:
+1. 서버를 껐다 켜기 (NMinimap이 `server\plugins\NMinimap\built-pack.zip` 을 새로 만들어요)
+2. PowerShell에서 실행 (숫자는 지난번보다 1 크게):
+   `powershell -NoProfile -ExecutionPolicy Bypass -File resourcepack\build-pack.ps1 -Version 2`
+3. 새 zip을 GitHub에 올리기: `git add resourcepack\minimap-shaders-v2.zip` → 커밋 → `git push`
+4. 2번에서 출력된 `resource-pack=` 줄과 `resource-pack-sha1=` 줄을 `server\server.properties` 에 바꿔 넣고 서버 재시작
+
+- 지금 쓰는 팩: `resourcepack\minimap-shaders-v1.zip` (공개 저장소에서 친구들이 받아가요)
+- 파일 이름의 숫자를 매번 바꾸는 이유: 이름이 같으면 GitHub가 몇 분 동안 옛날 파일을 줘서, 친구들이 팩을 못 받아요
+- NoMod Shaders를 새 버전으로 바꿀 때는 `resourcepack\sources\` 의 리소스팩 zip, `build-pack.ps1` 안의 파일 이름,
+  `server\world\datapacks\` 의 데이터팩을 같이 바꿔야 해요
+
 ## 서버 버전 업데이트
+- **주의: 26.4 이상으로 올리기 전에** NMinimap과 NoMod Shaders가 그 버전을 지원하는지 먼저 확인하세요.
+  둘 다 게임 버전마다 바뀌는 그래픽 코드를 써서, 지원하기 전에 올리면 미니맵과 셰이더 효과가 안 보이거나
+  화면이 깨질 수 있어요 (26.4부터 그래픽 방식이 크게 바뀔 예정이에요).
+  같은 26.3 안에서 Paper만 새 빌드로 바꾸는 건 괜찮아요.
+
 1. 서버 `stop` + 백업
 2. https://papermc.io/downloads/paper 에서 새 jar 받아서 `server\paper.jar` 로 교체
 3. 새 버전이 더 높은 Java를 요구하면 `winget install EclipseAdoptium.Temurin.<버전>.JRE` 후 `start.bat` 의 `jre-25*` 부분 수정
